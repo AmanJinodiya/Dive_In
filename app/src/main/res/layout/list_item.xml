@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardd"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00FFFFFF"
+    android:elevation="20dp"
+    android:padding="13dp"
+    app:cardBackgroundColor="#000000">
+
+    <RelativeLayout
+        android:id="@+id/relative_lauid"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_marginTop="20dp"
+        android:background="#00FFFFFF"
+        android:padding="2dp">
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="91dp"
+            android:layout_height="45dp"
+
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="17dp"
+            android:layout_toStartOf="@+id/txtsong"
+            android:background="#00FFFFFF"
+            android:scaleType="centerCrop"
+            android:src="@drawable/main3" />
+
+        <TextView
+            android:id="@+id/txtsong"
+            android:layout_width="287dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="12dp"
+
+            android:layout_marginEnd="8dp"
+            android:background="#00FFFFFF"
+            android:ellipsize="marquee"
+            android:gravity="center_vertical"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="#8F7878"
+            android:textStyle="bold">
+
+        </TextView>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

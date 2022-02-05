@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="800">
+       <KeyFrameSet>
+       </KeyFrameSet>
+        <OnSwipe />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:layout_height="56dp"
+            android:layout_width="63dp"
+            android:id="@+id/song_pic"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp" />
+        <Constraint
+            android:layout_height="39dp"
+            android:layout_width="228dp"
+            android:id="@+id/textView"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toEndOf="@+id/song_pic"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"
+            motion:layout_constraintHorizontal_bias="0.096" />
+        <Constraint
+            android:layout_height="48dp"
+            android:layout_width="64dp"
+            android:id="@+id/play_button"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toEndOf="@+id/textView"
+            android:layout_marginTop="24dp" />
+        <Constraint
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:id="@+id/skip_next"
+            motion:layout_editor_absoluteX="253dp"
+            motion:layout_editor_absoluteY="570dp"
+            android:alpha="0" />
+        <Constraint
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:id="@+id/skip_prev"
+            motion:layout_editor_absoluteX="95dp"
+            motion:layout_editor_absoluteY="570dp"
+            android:alpha="0" />
+        <Constraint
+            android:layout_height="46dp"
+            android:layout_width="46dp"
+            android:id="@+id/shuffle_button"
+            motion:layout_editor_absoluteX="27dp"
+            motion:layout_editor_absoluteY="571dp"
+            android:alpha="0" />
+        <Constraint
+            android:layout_height="46dp"
+            android:layout_width="46dp"
+            android:id="@+id/repeat_button"
+            motion:layout_editor_absoluteX="325dp"
+            motion:layout_editor_absoluteY="571dp"
+            android:alpha="0" />
+        <Constraint
+            android:layout_height="13dp"
+            motion:layout_editor_absoluteX="40dp"
+            android:layout_width="14dp"
+            android:id="@+id/shuffle_action"
+            motion:layout_editor_absoluteY="598dp"
+            android:alpha="0" />
+        <Constraint
+            android:layout_height="13dp"
+            android:layout_width="333dp"
+            android:id="@+id/seekBar"
+            motion:layout_editor_absoluteX="37dp"
+            motion:layout_editor_absoluteY="521dp"
+            android:alpha="0" />
+        <Constraint
+            android:layout_height="654dp"
+            android:layout_width="410dp"
+            android:id="@+id/listview1"
+            motion:layout_editor_absoluteX="0dp"
+            motion:layout_constraintTop_toBottomOf="@+id/textView"
+            android:layout_marginTop="88dp" />
+    </ConstraintSet>
+</MotionScene>
