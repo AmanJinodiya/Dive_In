@@ -1,10 +1,10 @@
-package com.example.myapplication;
+package com.example.DiveIn;
 
-import static com.example.myapplication.ApplicationClass.ACTION_NEXT;
-import static com.example.myapplication.ApplicationClass.ACTION_PLAY;
-import static com.example.myapplication.ApplicationClass.ACTION_PREV;
-import static com.example.myapplication.ApplicationClass.ACTION_SHUFFLE;
-import static com.example.myapplication.ApplicationClass.CHANNEL_ID_2;
+import static com.example.DiveIn.ApplicationClass.ACTION_NEXT;
+import static com.example.DiveIn.ApplicationClass.ACTION_PLAY;
+import static com.example.DiveIn.ApplicationClass.ACTION_PREV;
+import static com.example.DiveIn.ApplicationClass.ACTION_SHUFFLE;
+import static com.example.DiveIn.ApplicationClass.CHANNEL_ID_2;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -32,13 +32,16 @@ import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +49,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -70,10 +71,11 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
     TextView textView;
     ConstraintLayout constraintLayout;
     MaterialButton play_button,tb;
+    int default_colour = 0;
+    songs_adapter s;
 
-    ListView listView;
     RecyclerView rv;
-    RelativeLayout r,rl;
+    RelativeLayout r;
 
     boolean play_pause_state = true;
     ImageView iv;
@@ -101,7 +103,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
             if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
 //                mediaPlayer.start();
                 if( mediaPlayer != null ) {
-                    if( !mediaPlayer.isPlaying() ) {
+                    if( !mediaPlayer.isPlaying() && play_pause_state) {
                         mediaPlayer.start();
                     }
                 }
@@ -122,8 +124,6 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
             super.onPlay();
             if(mediaPlayer != null)
             {
-
-                Toast.makeText(recycle.this, "button pressed", Toast.LENGTH_SHORT).show();
                 playpause();
             }
         }
@@ -133,7 +133,6 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
             super.onPause();
             if(mediaPlayer != null)
             {
-                Toast.makeText(recycle.this, "button pressed", Toast.LENGTH_SHORT).show();
                 playpause();
             }
         }
@@ -143,7 +142,6 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
             super.onSkipToNext();
             if(mediaPlayer != null)
             {
-                Toast.makeText(recycle.this, "next", Toast.LENGTH_SHORT).show();
                 skip_next.performClick();
             }
         }
@@ -153,7 +151,6 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
             super.onSkipToPrevious();
             if(mediaPlayer != null)
             {
-                Toast.makeText(recycle.this, "prev", Toast.LENGTH_SHORT).show();
                 skip_prev.performClick();
             }
         }
@@ -183,7 +180,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
         seekBar = findViewById(R.id.seekBar);
 
         shuffle_active = findViewById(R.id.shuffle_action);
-        shuffle_active.setVisibility(View.INVISIBLE);
+        shuffle_active.setVisibility(View.GONE);
         r = findViewById(R.id.relative_lauid);
 
 
@@ -212,7 +209,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
         mediaSession.setPlaybackState(state);
 
 
-
+        ;
 
         Intent intent1 = new Intent(this,MusicService.class);
         bindService(intent1,this,BIND_AUTO_CREATE);
@@ -233,7 +230,6 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
         position = bundle.getInt("pos",0);
         path = bundle.getString("pat");
         String song_name = mysongs.get(position).getName();
-        song_name = song_name.replace(".mp3","");
         textView.setText(song_name);
         textView.setSelected(true);
 
@@ -241,7 +237,6 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
 
         mediaPlayer = MediaPlayer.create(getApplicationContext(),uri);
         mediaPlayer.start();
-
 
         song_n = mysongs.get(position).getName();
         song_n  = song_n.replace(".mp3","");
@@ -341,14 +336,20 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
             }
         });
 
+        Intent intent111= new Intent(this,MusicService.class);
+        Log.d("Aman","on resume");
+        bindService(intent111,this,BIND_AUTO_CREATE);
 
 
 
 
         imageView = findViewById(R.id.song_pic);
 //        imageView.setImageResource();
-        imageView.setImageBitmap(coverpicture(mysongs.get(position).getPath()));
+        Bitmap b = coverpicture(mysongs.get(position).getPath());
+        if(b == null) b = ((BitmapDrawable) getResources().getDrawable(R.drawable.temp2)).getBitmap();
+        imageView.setImageBitmap(b);
         Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        if(bitmap == null) bitmap =  ((BitmapDrawable) getResources().getDrawable(R.drawable.temp)).getBitmap();
         Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
             @Override
             public void onGenerated(Palette palette) {
@@ -372,12 +373,16 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
 
                 if(muted == 0)
                 {
+                    if(vibrantDark == Color.WHITE)
+                        vibrantDark = Color.BLACK;
                     constraintLayout.setBackgroundColor(vibrantDark);
                     skip_next.setBackgroundColor(vibrantDark);
                     skip_prev.setBackgroundColor(vibrantDark);
                     shuffle_button.setBackgroundColor(vibrantDark);
                     repeat_button.setBackgroundColor(vibrantDark);
                     play_button.setBackgroundColor(vibrantLight);
+                    default_colour = vibrantLight;
+
                     imageView.setBackgroundColor(vibrantDark);
 //                    tb.setBackgroundColor(vibrantLight);
 
@@ -397,13 +402,18 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
                 }
                 else {
 
+                    if(mutedDark == Color.WHITE)
+                        mutedDark = Color.BLACK;
                     constraintLayout.setBackgroundColor(mutedDark);
                     skip_next.setBackgroundColor(mutedDark);
                     skip_prev.setBackgroundColor(mutedDark);
                     shuffle_button.setBackgroundColor(mutedDark);
                     repeat_button.setBackgroundColor(mutedDark);
                     play_button.setBackgroundColor(mutedLight);
+                    default_colour = mutedLight;
                     imageView.setBackgroundColor(mutedDark);
+
+
 
 
                     View view = View.inflate(recycle.this, R.layout.list_item, null);
@@ -435,15 +445,21 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
     @Override
     protected void onResume() {
         super.onResume();
-        Intent intent = new Intent(this,MusicService.class);
-        bindService(intent,this,BIND_AUTO_CREATE);
+//        Intent intent = new Intent(this,MusicService.class);
+//        Log.d("Aman","on resume");
+//        bindService(intent,this,BIND_AUTO_CREATE);
     }
 
 
     public void cover_bgupdate(int position)
     {
-        imageView.setImageBitmap(coverpicture(mysongs.get(position).getPath()));
+        Bitmap b = coverpicture(mysongs.get(position).getPath());
+        if(b == null) b = ((BitmapDrawable) getResources().getDrawable(R.drawable.temp2)).getBitmap();
+        imageView.setImageBitmap(b);
         Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+
+
+
         Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
             @Override
             public void onGenerated(Palette palette) {
@@ -456,6 +472,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
                 int mutedLight = palette.getLightMutedColor(defaultValue);
                 int mutedDark = palette.getDarkMutedColor(defaultValue);
 
+
 //                vibrantView.setBackgroundColor(vibrant);
 //                vibrantLightView.setBackgroundColor(vibrantLight);
 //                vibrantDarkView.setBackgroundColor(vibrantDark);
@@ -465,7 +482,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
 
 
 
-                if(muted == 0 || vibrantDark !=0)
+                if(muted == 0)
                 {
                     constraintLayout.setBackgroundColor(vibrantDark);
                     skip_next.setBackgroundColor(vibrantDark);
@@ -522,7 +539,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
     public  Bitmap coverpicture(String path) {
 
         MediaMetadataRetriever mr = new MediaMetadataRetriever();
-
+        Bitmap bitmap;
         mr.setDataSource(path);
 
         byte[] byte1 = mr.getEmbeddedPicture();
@@ -541,20 +558,10 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
 
     @Override
     public void nxt() {
-        imageanimation(this,imageView);
+
 
         mediaPlayer.stop();
         mediaPlayer.release();
-
-        if(shuffle)
-        {
-
-            shuffle_active.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            shuffle_active.setVisibility(View.INVISIBLE);
-        }
         if(shuffle)
         {
             position = getrandom(mysongs.size()-1);
@@ -584,9 +591,16 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
             extra = "/storage/emulated/0/myapp/";
         }
 
+//        songs_adapter s = new songs_adapter(mysongs);
+//        rv.setAdapter(s);
+//        rv.setLayoutManager(new LinearLayoutManager(this));
+        s.notifyDataSetChanged();
+
         song_n  = song_n.replace(".mp3","");
         textView.setText(song_n);
         mediaPlayer.start();
+
+        imageanimation(this,imageView);
         if(play_pause_state == false) play_button.setIconResource(R.drawable.pause_me);
 
 
@@ -610,7 +624,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
 
     @Override
     public void prev() {
-        imageanimationprev(imageView);
+
         mediaPlayer.stop();
         mediaPlayer.release();
         if(shuffle)
@@ -643,10 +657,15 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
             extra = "/storage/emulated/0/myapp/";
         }
 
+//        songs_adapter s = new songs_adapter(mysongs);
+//        rv.setAdapter(s);
+//        rv.setLayoutManager(new LinearLayoutManager(this));
+        s.notifyDataSetChanged();
         song_n  = song_n.replace(".mp3","");
         textView.setText(song_n);
 
         mediaPlayer.start();
+        imageanimationprev(imageView);
         if(play_pause_state == false) play_button.setIconResource(R.drawable.pause_me);
 
         if(mediaPlayer.isPlaying())
@@ -696,14 +715,13 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
         if(shuffle)
         {
             shuffle = false;
-            shuffle_active.setVisibility(View.INVISIBLE);
-
-
+            shuffle_button.setColorFilter(Color.WHITE);
         }
         else
         {
             shuffle = true;
-            shuffle_active.setVisibility(View.VISIBLE);
+            shuffle_button.setColorFilter(R.color.shuggle);
+
         }
 
     }
@@ -711,14 +729,20 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
         MusicService.MyBinder myBinder = (MusicService.MyBinder) service;
+        Log.d("Aman","service connected");
         musicService = myBinder.getService();
         musicService.setCallback(recycle.this);
+        Log.d("Aman",recycle.this.toString());
     }
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
+
+        Log.d("Aman","service disconnected ");
         musicService = null;
     }
+
+
 
     public void shownotification(int playpausebtn)
     {
@@ -737,6 +761,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
         Intent shuffleIntent = new Intent(this,NotificationReciver2.class).setAction(ACTION_SHUFFLE);
         PendingIntent shufflependingintent = PendingIntent.getBroadcast(this,0,shuffleIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Bitmap pic = coverpicture(mysongs.get(position).getPath());
         Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID_2)
                 .setSmallIcon(R.drawable.ic_baseline_home_24)
@@ -750,24 +775,21 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                         .setMediaSession(mediaSession.getSessionToken()))
                 .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setContentIntent(contentIntent)
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
                 .build();
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-
         notificationManager.notify(0,notification);
-
-
-
     }
 
     public  void imageanimation(final Context context,final ImageView imageView)
     {
         Animation animout = AnimationUtils.loadAnimation(this,R.anim.anim_left);
         imageView.setAnimation(animout);
+
     }
 
     public  void imageanimationprev(ImageView imageView)
@@ -783,35 +805,16 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
         {
             items[i] = mysongs.get(i).getName().replace(".mp3","").replace(".wav","");
         }
-
-//        customAdapter customAdapter = new customAdapter();
-//        listView.setAdapter(customAdapter);
-//
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                list_item_change_song(position);
-////                parent.getChildAt(position).setBackgroundColor(Color.RED);
-//                View view1 = getLayoutInflater().inflate(R.layout.list_item,null);
-//                TextView t = view1.findViewById(R.id.txtsong);
-//                ImageView imageView1 = view1.findViewById(R.id.iv);
-//                t.setBackgroundColor(Color.MAGENTA);
-//
-//            }
-//        });
-
-        songs_adapter s = new songs_adapter(mysongs);
+        s = new songs_adapter(mysongs);
         rv.setAdapter(s);
         rv.setLayoutManager(new LinearLayoutManager(this));
-
-
-
 
     }
     //
     void list_item_change_song(int pos)
     {
         imageanimation(this,imageView);
+        position = pos;
         mediaPlayer.stop();
         mediaPlayer.release();
         Uri uri = Uri.parse(mysongs.get(pos).toString());
@@ -838,6 +841,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
         song_n  = song_n.replace(".mp3","");
         textView.setText(song_n);
         mediaPlayer.start();
+
         if(play_pause_state == false) play_button.setIconResource(R.drawable.pause_me);
         if(mediaPlayer.isPlaying())
         {
@@ -857,94 +861,10 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
         });
     }
 
-    class customAdapter extends BaseAdapter
-    {
-
-        @Override
-        public int getCount() {
-            return items.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            View view = getLayoutInflater().inflate(R.layout.list_item,null);
-            TextView t = view.findViewById(R.id.txtsong);
-            ImageView imageView1 = view.findViewById(R.id.iv);
-            t.setSelected(true);
-//            t.setBackgroundColor(Color.MAGENTA);
-//
-//
-            CardView cardView = view.findViewById(R.id.cardd);
-            RelativeLayout r = view.findViewById(R.id.relative_lauid);
-//            t.setBackgroundColor(Color.parseColor("#FF8800"));
-//            t.setBackgroundColor(android.R.color.holo_orange_dark);
-//
-//            Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
-//            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-//                @Override
-//                public void onGenerated(Palette palette) {
-//                    //work with the palette here
-//                    int defaultValue = 0x000000;
-//                    int vibrant = palette.getVibrantColor(defaultValue);
-//                    int vibrantLight = palette.getLightVibrantColor(defaultValue);
-//                    int vibrantDark = palette.getDarkVibrantColor(defaultValue);
-//                    int muted = palette.getMutedColor(defaultValue);
-//                    int mutedLight = palette.getLightMutedColor(defaultValue);
-//                    int mutedDark = palette.getDarkMutedColor(defaultValue);
-//
-//                    if(muted == 0)
-//                    {
-//                        String hexColor = String.format("#%08X", (0xFFFFFFFF & vibrantDark));
-//                        t.setBackgroundColor(Color.parseColor(hexColor));
-//                        cardView.setBackgroundColor(Color.parseColor(hexColor));
-//                        r.setBackgroundColor(Color.parseColor(hexColor));
-//                        imageView1.setBackgroundColor(Color.parseColor(hexColor));
-//
-//                    }
-//                    else {
-//
-//                        String hexColor = String.format("#%08X", (0xFFFFFFFF & mutedDark));
-//                        t.setBackgroundColor(Color.parseColor(hexColor));
-//                        cardView.setBackgroundColor(Color.parseColor(hexColor));
-//                        r.setBackgroundColor(Color.parseColor(hexColor));
-//                        imageView1.setBackgroundColor(Color.parseColor(hexColor));
-//
-//
-//                    }
-//                }
-//            });
-            t.setText(items[position]);
-            String pp = path;
-
-            String path = Environment.getExternalStorageDirectory().toString()+pp;
-
-            File directory = new File(path);
-            File[] files = directory.listFiles();
-
-            MediaMetadataRetriever mmr = new MediaMetadataRetriever();
-            mmr.setDataSource(files[position].getPath());
-            byte [] data = mmr.getEmbeddedPicture();
-            Bitmap bitmap1 = BitmapFactory.decodeByteArray(data, 0, data.length);
-            imageView1.setImageBitmap(bitmap1);
-            return view;
-        }
-    }
-
     public class songs_adapter extends RecyclerView.Adapter<songs_adapter.ViewHolder> {
 
         private List<File> new_mysongs;
+
         public songs_adapter(List<File> songs)
         {
             new_mysongs = songs;
@@ -980,7 +900,9 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
             MediaMetadataRetriever mmr = new MediaMetadataRetriever();
             mmr.setDataSource(files[position].getPath());
             byte [] data = mmr.getEmbeddedPicture();
-            Bitmap bitmap1 = BitmapFactory.decodeByteArray(data, 0, data.length);
+            Bitmap bitmap1;
+            if(data == null) bitmap1= ((BitmapDrawable) getResources().getDrawable(R.drawable.temp2)).getBitmap();
+            else bitmap1 = BitmapFactory.decodeByteArray(data, 0, data.length);
             i.setImageBitmap(bitmap1);
 
             CardView cardView = holder.c;
@@ -988,6 +910,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
 
 
             Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+            if(bitmap == null) bitmap =  ((BitmapDrawable) getResources().getDrawable(R.drawable.temp)).getBitmap();
             Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(Palette palette) {
@@ -1042,11 +965,14 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
                 new_song_image = (ImageView) itemView.findViewById(R.id.iv);
                 c = (CardView) itemView.findViewById(R.id.cardd);
                 r = (RelativeLayout ) itemView.findViewById(R.id.relative_lauid);
+
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         list_item_change_song(getAdapterPosition());
                         Bitmap bb = coverpicture(mysongs.get(getAdapterPosition()).getPath());
+                        if(bb == null) bb = ((BitmapDrawable) getResources().getDrawable(R.drawable.temp2)).getBitmap();
+//                        bb =  ((BitmapDrawable) getResources().getDrawable(R.drawable.temp)).getBitmap();
                         Palette.from(bb).generate(new Palette.PaletteAsyncListener() {
                             @Override
                             public void onGenerated(Palette palette) {

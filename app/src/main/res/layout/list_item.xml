@@ -13,7 +13,8 @@
         android:id="@+id/relative_lauid"
         android:layout_width="match_parent"
         android:layout_height="47dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:background="#00FFFFFF"
         android:padding="2dp">
 
@@ -45,7 +46,7 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:textColor="#8F7878"
+            android:textColor="@color/black"
             android:textStyle="bold">
 
         </TextView>

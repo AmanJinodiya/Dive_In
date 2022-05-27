@@ -1,55 +1,44 @@
-package com.example.myapplication;
+package com.example.DiveIn;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.palette.graphics.Palette;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.Image;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
+import com.airbnb.lottie.LottieAnimationView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.karumi.dexter.listener.single.BasePermissionListener;
-import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,20 +46,24 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     String []items;
     RecyclerView recyclerView;
+    boolean del_check = false;
     MediaPlayer mediaPlayer;
     String pp;
-    ImageView card1;
+    LottieAnimationView card1;
 //    ImageButton play;
-    ImageView imageView;
+    LottieAnimationView imageView;
+    SearchView searchView;
     long animation_duration = 1000;
     int pause_me = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listView = findViewById(R.id.listview);
-        listView = findViewById(R.id.listview);
-        listView.setVisibility(View.GONE);
+        recyclerView = findViewById(R.id.recyleview);
+        recyclerView.setVisibility(View.INVISIBLE);
+        card1 = findViewById(R.id.card1);
+        searchView = findViewById(R.id.search_view);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -78,22 +71,43 @@ public class MainActivity extends AppCompatActivity {
         }
 
 //        imageView = findViewById(R.id.imageView1);
-        card1 = findViewById(R.id.card1);
-        
+        Handler handler1 = new Handler();
+        handler1.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                card1 = findViewById(R.id.card1);
+                card1.animate().translationY(-245).setDuration(1000);
+                recyclerView.animate().translationY(470).setDuration(1000);
+            }
+        }, 200);
+
         card1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                ObjectAnimator animatory = ObjectAnimator.ofFloat(card1,"Y",-80f);
-                animatory.setDuration(animation_duration);
-                AnimatorSet animatorSet = new AnimatorSet();
-                animatorSet.playTogether(animatory);
-                animatorSet.start();
-                listView.setVisibility(View.VISIBLE);
+                if(del_check == false)
+                {
+                    del_check = true;
+                    displaysong();
+                }
+                else
+                {
+                    del_check = false;
+                    displaysong();
+                }
             }
         });
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        }, 1100);
 
         user_permission();
+
+
+       
 
     }
 
@@ -144,61 +158,25 @@ public class MainActivity extends AppCompatActivity {
             items[i] = mysongs.get(i).getName().replace(".mp3","").replace(".wav","");
         }
 
-        customAdapter customAdapter = new customAdapter();
-        listView.setAdapter(customAdapter);
+         mainActivityAdapter m = new mainActivityAdapter(mysongs,del_check,pp);
+        recyclerView.setAdapter(m);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String songname = (String)listView.getItemAtPosition(position);
-                startActivity(new Intent(getApplicationContext(),recycle.class).putExtra("songname",songname).putExtra("songs",mysongs).putExtra("pos",position).putExtra("pause_me",pause_me).putExtra("pat",pp));
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                m.getFilter().filter(newText);
+                return false;
             }
         });
 
+
     }
 
-    class customAdapter extends BaseAdapter
-    {
-
-        @Override
-        public int getCount() {
-            return items.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            View view = getLayoutInflater().inflate(R.layout.list_item,null);
-            TextView t = view.findViewById(R.id.txtsong);
-            ImageView imageView = view.findViewById(R.id.iv);
-            t.setSelected(true);
-            t.setText(items[position]);
-
-            String path = Environment.getExternalStorageDirectory().toString()+pp;
-
-            File directory = new File(path);
-            File[] files = directory.listFiles();
-
-            MediaMetadataRetriever mmr = new MediaMetadataRetriever();
-            mmr.setDataSource(files[position].getPath());
-            byte [] data = mmr.getEmbeddedPicture();
-            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-            imageView.setImageBitmap(bitmap);
-            return view;
-        }
     }
-
-
-
-
-}

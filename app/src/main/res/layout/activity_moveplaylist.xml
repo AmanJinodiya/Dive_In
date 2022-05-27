@@ -7,155 +7,196 @@
     android:layout_height="match_parent"
     tools:context=".moveplaylist">
 
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="69dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="72dp"
-        android:src="@drawable/pp10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/punjab"
-        android:layout_width="148dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="84dp"
-        android:text="Punjabi"
-        android:textColor="#836969"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="69dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="152dp"
-        android:src="@drawable/pp11"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/travel"
-        android:layout_width="148dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginEnd="84dp"
-        android:text="Travel"
-        android:textColor="#836969"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="69dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="236dp"
-        android:src="@drawable/pp4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/Broken"
-        android:layout_width="148dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="244dp"
-        android:layout_marginEnd="84dp"
-        android:text="Broken"
-        android:textColor="#836969"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="69dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="308dp"
-        android:src="@drawable/pp5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/english"
-        android:layout_width="148dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="316dp"
-        android:layout_marginEnd="84dp"
-        android:text="English"
-        android:textColor="#836969"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="69dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="388dp"
-        android:src="@drawable/pp7"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/old"
-        android:layout_width="148dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="396dp"
-        android:layout_marginEnd="84dp"
-        android:text="Old"
-        android:textColor="#FF836969"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="69dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="468dp"
-        android:src="@drawable/pp2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/pop"
-        android:layout_width="148dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="476dp"
-        android:layout_marginEnd="84dp"
-        android:text="Pop"
-        android:textColor="#836969"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="69dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="552dp"
-        android:src="@drawable/pp9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/workout"
-        android:layout_width="148dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="560dp"
-        android:layout_marginEnd="84dp"
-        android:text="Workout"
-        android:textColor="#836969"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/submit"
-        android:layout_width="86dp"
-        android:layout_height="87dp"
-        android:layout_marginEnd="160dp"
-        android:layout_marginBottom="24dp"
-        android:src="@drawable/d1"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifImageView2"
+                    android:layout_width="69dp"
+                    android:layout_height="65dp"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginTop="72dp"
+                    android:src="@drawable/pp10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <CheckBox
+                    android:id="@+id/punjab"
+                    android:layout_width="148dp"
+                    android:layout_height="41dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="83dp"
+                    android:layout_marginEnd="82dp"
+                    android:text="Punjabi"
+                    android:textColor="#836969"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/gifImageView2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifImageView3"
+                    android:layout_width="69dp"
+                    android:layout_height="65dp"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/pp11"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gifImageView2" />
+
+                <CheckBox
+                    android:id="@+id/travel"
+                    android:layout_width="148dp"
+                    android:layout_height="41dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginEnd="82dp"
+                    android:text="Travel"
+                    android:textColor="#836969"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/gifImageView3"
+                    app:layout_constraintTop_toBottomOf="@+id/punjab" />
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifImageView4"
+                    android:layout_width="69dp"
+                    android:layout_height="65dp"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/pp4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gifImageView3" />
+
+                <CheckBox
+                    android:id="@+id/Broken"
+                    android:layout_width="148dp"
+                    android:layout_height="41dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="82dp"
+                    android:text="Broken"
+                    android:textColor="#836969"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/gifImageView4"
+                    app:layout_constraintTop_toBottomOf="@+id/travel" />
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifImageView5"
+                    android:layout_width="69dp"
+                    android:layout_height="65dp"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/pp5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gifImageView4" />
+
+                <CheckBox
+                    android:id="@+id/english"
+                    android:layout_width="148dp"
+                    android:layout_height="41dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="82dp"
+                    android:text="English"
+                    android:textColor="#836969"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/gifImageView5"
+                    app:layout_constraintTop_toBottomOf="@+id/Broken" />
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifImageView6"
+                    android:layout_width="69dp"
+                    android:layout_height="65dp"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/pp7"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gifImageView5" />
+
+                <CheckBox
+                    android:id="@+id/old"
+                    android:layout_width="148dp"
+                    android:layout_height="41dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="82dp"
+                    android:text="Old"
+                    android:textColor="#FF836969"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/gifImageView6"
+                    app:layout_constraintTop_toBottomOf="@+id/english" />
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifImageView7"
+                    android:layout_width="68dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/pp2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gifImageView6" />
+
+                <CheckBox
+                    android:id="@+id/pop"
+                    android:layout_width="148dp"
+                    android:layout_height="41dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="82dp"
+                    android:text="Pop"
+                    android:textColor="#836969"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/gifImageView7"
+                    app:layout_constraintTop_toBottomOf="@+id/old" />
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifImageView"
+                    android:layout_width="69dp"
+                    android:layout_height="65dp"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/pp9"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gifImageView7" />
+
+                <CheckBox
+                    android:id="@+id/workout"
+                    android:layout_width="148dp"
+                    android:layout_height="41dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="82dp"
+                    android:text="Workout"
+                    android:textColor="#836969"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/gifImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/pop" />
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/submit"
+                    android:layout_width="86dp"
+                    android:layout_height="87dp"
+                    android:layout_marginTop="25dp"
+                    android:src="@drawable/d1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gifImageView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

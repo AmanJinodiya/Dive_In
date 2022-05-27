@@ -1,22 +1,22 @@
-package com.example.myapplication;
+package com.example.DiveIn;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.FileUtils;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,9 +25,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,7 +34,9 @@ import java.util.TimerTask;
 public class moveplaylist extends AppCompatActivity {
     CheckBox punjab, Travel, Broken, English, Old, Pop, Workout;
     ImageView submit;
+    EditText web_name;
     boolean p = false;
+    Boolean download = false;
 //
 
     @Override
@@ -46,11 +45,14 @@ public class moveplaylist extends AppCompatActivity {
         setContentView(R.layout.activity_moveplaylist);
         punjab = findViewById(R.id.punjab);
         Travel = findViewById(R.id.travel);
+
         Broken = findViewById(R.id.Broken);
         English = findViewById(R.id.english);
         Old = findViewById(R.id.old);
         Pop = findViewById(R.id.pop);
         Workout = findViewById(R.id.workout);
+
+
         ArrayList<String> arrayList = new ArrayList<>();
 
 
@@ -86,6 +88,10 @@ public class moveplaylist extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri11);
 //
                 startActivity(intent);
+                if(download == true)
+                {
+                    Toast.makeText(moveplaylist.this, "Done Downloading", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -105,7 +111,7 @@ public class moveplaylist extends AppCompatActivity {
             }
         }
 
-        boolean[] download = {false};
+//        boolean[] download = {false};
         int MINUTES = 1;
         int[] z = {0};
         int[] count1 = {count};
@@ -162,15 +168,33 @@ public class moveplaylist extends AppCompatActivity {
 
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     v.vibrate(1000);
-                    download[0] = true;
+                    download = true;
                 }
-                if (download[0] == true) {
+                if (download == true) {
                     timer.cancel();
+                    move_song_notification();
+
                 }
             }
         }, 0, 1000 * 60 * MINUTES);
     }
 
+    public void move_song_notification()
+    {
+        String CHANNEL_ID_2 = "channel2";
+        Intent intent = new Intent(this,recycle.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder mbuilder = new NotificationCompat.Builder(this,CHANNEL_ID_2)
+                .setSmallIcon(R.drawable.ic_baseline_home_24)
+                .setContentTitle("Dive In")
+                .setContentText("Song Moved")
+                .setContentIntent(contentIntent);
+
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, mbuilder.build());
+    }
 
     public static void copyFile(File sourceFile, File destFile) throws IOException {
         if (!destFile.getParentFile().exists())

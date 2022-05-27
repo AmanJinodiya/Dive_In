@@ -1,10 +1,10 @@
-package com.example.myapplication;
+package com.example.DiveIn;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-public class NotificationReciver1 extends BroadcastReceiver {
+public class NotificationReciver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 

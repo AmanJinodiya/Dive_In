@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.DiveIn;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,15 +7,11 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import java.io.File;
-import java.security.Provider;
 import java.util.ArrayList;
-
-import javax.security.auth.login.LoginException;
 
 public class MusicService extends Service {
 
@@ -24,9 +20,7 @@ public class MusicService extends Service {
     public static final String ACTION_NEXT = "actionnext";
     public static final String ACTION_PLAY = "actionplay";
     ActionPlaying actionPlaying;
-    MediaPlayer mediaPlayer;
-    ArrayList<File> arrayList = new ArrayList<File>();
-    Uri uri;
+
 
 
 
@@ -40,6 +34,9 @@ public class MusicService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("hi","hello");
         String actionname = intent.getStringExtra("myactionname");
+        Log.d("Aman",actionname);
+        if(actionPlaying != null) Log.d("Aman","not null");
+        else Log.d("Aman","null");
         if(actionname != null) {
 
             switch (actionname) {
@@ -52,6 +49,7 @@ public class MusicService extends Service {
                 case ACTION_NEXT:
                     if(actionPlaying != null)
                     {
+                        Log.d("Aman","in prev");
                         actionPlaying.nxt();
                     }
                     break;
@@ -64,6 +62,7 @@ public class MusicService extends Service {
                     break;
             }
         }
+        else Log.d("Aman","null");
         return START_STICKY;
     }
 

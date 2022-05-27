@@ -13,6 +13,77 @@
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:layout_height="18dp"
+            android:layout_marginBottom="108dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="18dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginStart="40dp"
+            android:id="@+id/shuffle_action"
+            motion:layout_constraintTop_toBottomOf="@+id/shuffle_button"
+            motion:layout_constraintVertical_bias="1.0" />
+        <Constraint
+            android:layout_marginEnd="108dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="112dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintHorizontal_bias="0.8"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="50dp"
+            motion:layout_constraintTop_toBottomOf="@+id/seekBar"
+            motion:layout_constraintVertical_bias="0.73"
+            motion:layout_constraintStart_toEndOf="@+id/play_button"
+            android:layout_marginStart="28dp"
+            android:id="@+id/skip_next" />
+        <Constraint
+            android:layout_marginEnd="40dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="114dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintHorizontal_bias="0.142"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="46dp"
+            motion:layout_constraintTop_toBottomOf="@+id/seekBar"
+            motion:layout_constraintStart_toEndOf="@+id/skip_next"
+            android:layout_marginStart="22dp"
+            android:id="@+id/repeat_button"
+            motion:layout_constraintVertical_bias="0.777" />
+        <Constraint
+            android:layout_marginEnd="28dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="112dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintHorizontal_bias="0.2"
+            android:layout_width="50dp"
+            motion:layout_constraintTop_toBottomOf="@+id/seekBar"
+            motion:layout_constraintVertical_bias="0.678"
+            motion:layout_constraintEnd_toStartOf="@+id/play_button"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="108dp"
+            android:id="@+id/skip_prev" />
+        <Constraint
+            android:layout_marginEnd="22dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="114dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintHorizontal_bias="1.0"
+            android:layout_width="46dp"
+            motion:layout_constraintTop_toBottomOf="@+id/seekBar"
+            motion:layout_constraintEnd_toStartOf="@+id/skip_prev"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="40dp"
+            android:id="@+id/shuffle_button"
+            motion:layout_constraintVertical_bias="0.722" />
+        <Constraint
+            android:layout_height="590dp"
+            android:layout_width="408dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/recycle"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_editor_absoluteY="7dp" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -88,7 +159,7 @@
         <Constraint
             android:layout_height="654dp"
             motion:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="156dp"
+            android:layout_marginTop="144dp"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintHorizontal_bias="0.0"
             motion:layout_constraintEnd_toEndOf="parent"

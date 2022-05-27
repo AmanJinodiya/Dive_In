@@ -1,34 +1,28 @@
-package com.example.myapplication;
+package com.example.DiveIn;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
-import android.content.Context;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Vibrator;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.karumi.dexter.Dexter;
@@ -38,16 +32,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class firstview extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -57,14 +42,14 @@ public class firstview extends AppCompatActivity implements NavigationView.OnNav
     NavigationView navigationView;
     DrawerLayout drawerLayout;
     boolean background = false;
-//    static int z = 0;
+
     int m;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firstview);
         bottomNavigation = findViewById(R.id.bottom_navigation);
-        bg = findViewById(R.id.bg1);
+
         scrollView = findViewById(R.id.scroll);
         all = findViewById(R.id.all);
         navigationView = findViewById(R.id.nav_view);
@@ -77,7 +62,16 @@ public class firstview extends AppCompatActivity implements NavigationView.OnNav
         old = findViewById(R.id.old);
         pop = findViewById(R.id.pop);
         workout = findViewById(R.id.workout);
+
+
+        Toolbar toolbar1 = findViewById(R.id.tb);
+        setSupportActionBar(toolbar1);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
         user_permission();
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -85,116 +79,86 @@ public class firstview extends AppCompatActivity implements NavigationView.OnNav
         }
 
         navigationView.bringToFront();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                // yourMethod();
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.setSmoothScrollingEnabled(true);
+//                        scrollView.smoothScrollTo(2980,0);
+                        ObjectAnimator.ofInt(scrollView,"scrollX",3000).setDuration(3000).start();
+                    }
+                });
+            }
+        }, 1000);
 
 
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar1,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        scrollView.setVisibility(View.GONE);
+//        scrollView.setVisibility(View.GONE);
 
         all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/all/"));
+                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/all/").putExtra("all","true"));
 
 
             }
         });
-        bg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                background = true;
-                if(scrollView.getVisibility() == View.VISIBLE)
-                {
-                    scrollView.setVisibility(View.GONE);
-                    int new_hight = 1000;
-                    int new_width = 1000;
-                    bg.requestLayout();
-                    bg.getLayoutParams().height = new_hight;
-                    bg.getLayoutParams().width = new_width;
-                    bg.setAlpha(1f);
-                    bg.setScaleType(ImageView.ScaleType.FIT_XY);
-                }
-                else {
-                    int new_hight = 400;
-                    int new_width = 400;
-                    bg.requestLayout();
-                    bg.getLayoutParams().height = new_hight;
-                    bg.getLayoutParams().width = new_width;
-                    bg.setAlpha(0.5f);
-                    bg.setScaleType(ImageView.ScaleType.FIT_XY);
-                    scrollView.setVisibility(View.VISIBLE);
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            // yourMethod();
-                            scrollView.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    scrollView.setSmoothScrollingEnabled(true);
-                                    scrollView.smoothScrollTo(2980,0);
-                                }
-                            });
-                        }
-                    }, 1000);
-
-
-                }
-            }
-        });
-
         travel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/Travel/"));
+                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/Travel/").putExtra("all","false"));
             }
         });
         j.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/Punjabi/"));
+                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/Punjabi/").putExtra("all","false"));
             }
         });
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(firstview.this, "Scroll Right", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/coding/").putExtra("all","false"));
             }
         });
         broken.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/Broken/"));
+                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/Broken/").putExtra("all","false"));
             }
         });
         english.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/English/"));
+                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/English/").putExtra("all","false"));
             }
         });
         old.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/Old/"));
+                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/Old/").putExtra("all","false"));
             }
         });
         pop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/Pop/"));
+                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/Pop/").putExtra("all","false"));
             }
         });
         workout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/Workout/"));
+                startActivity(new Intent(getApplicationContext(),MainActivity.class).putExtra("p","/myapp/Workout/").putExtra("all","false"));
             }
         });
 
@@ -205,16 +169,16 @@ public class firstview extends AppCompatActivity implements NavigationView.OnNav
                 switch (item.getItemId())
                 {
                     case R.id.nav_download:
-                        Intent intent = new Intent(getApplicationContext(),moveplaylist.class).putExtra("link","https://mp3quack.lol/");
+                        Intent intent = new Intent(getApplicationContext(),moveplaylist.class).putExtra("link","https://mp3quack.app/");
                         startActivity(intent);
                         break;
                     case R.id.nav_home:
-                        Toast.makeText(firstview.this, "case2", Toast.LENGTH_SHORT).show();
-                        Intent intent2 = new Intent(firstview.this,firstview.class);
+                        Toast.makeText(firstview.this, "Home", Toast.LENGTH_SHORT).show();
+                        Intent intent2 = new Intent(firstview.this,SplashActivityActivity.class);
                         startActivity(intent2);
                         break;
                     case R.id.nav_youtube:
-                        Intent intent1 = new Intent(getApplicationContext(),moveplaylist.class).putExtra("link","https://320ytmp3.com/en33/");
+                        Intent intent1 = new Intent(getApplicationContext(),moveplaylist.class).putExtra("link","https://getx.topsandtees.space/bEnbXeqeog");
                         startActivity(intent1);
                         break;
                 }
@@ -293,6 +257,10 @@ public class firstview extends AppCompatActivity implements NavigationView.OnNav
                 File f8 = new File(Environment.getExternalStorageDirectory() + "/" + folder_main, "all");
                 if (!f8.exists()) {
                     f8.mkdirs();
+                }
+                File f9 = new File(Environment.getExternalStorageDirectory() + "/" + folder_main, "coding");
+                if (!f9.exists()) {
+                    f9.mkdirs();
                 }
                 break;
         }

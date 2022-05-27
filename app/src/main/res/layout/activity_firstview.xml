@@ -24,18 +24,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/bg1"
-            android:layout_width="410dp"
-            android:layout_height="389dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="50dp"
+<!--        <pl.droidsonroids.gif.GifImageView-->
+<!--            android:id="@+id/bg1"-->
+<!--            android:layout_width="410dp"-->
+<!--            android:layout_height="389dp"-->
+<!--            android:layout_marginStart="50dp"-->
+<!--            android:layout_marginTop="60dp"-->
+<!--            android:layout_marginEnd="50dp"-->
 
-            android:src="@drawable/main4"
-            app:layout_constraintEnd_toEndOf="parent"
+<!--            android:src="@drawable/main4"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tb"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/black"
+            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/all"
@@ -51,8 +59,8 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
-            android:layout_width="373dp"
-            android:layout_height="57dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:background="@drawable/round_corners"
             android:elevation="5dp"
             app:itemIconSize="30dp"
@@ -68,9 +76,9 @@
             android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginTop="192dp"
-            android:layout_marginBottom="26dp"
-            app:layout_constraintBottom_toTopOf="@+id/all"
+            android:layout_marginTop="122dp"
+            android:layout_marginBottom="2dp"
+            android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -83,32 +91,32 @@
 
 
                 <androidx.cardview.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
+                    card_view:cardCornerRadius="70dp"
+                    card_view:cardElevation="40dp"
 
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
-                    android:background="#262626">
+                    >
 
-                    <pl.droidsonroids.gif.GifImageView
+                    <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/b"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#262626"
-                        android:src="@drawable/source" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="260dp"
-                        android:gravity="center"
-                        android:text="P!@Y!i$Y"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
+                        app:lottie_autoPlay="true"
+                        android:background="@color/white"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/coding"
+                        />
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="70dp"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
 
@@ -136,8 +144,12 @@
 
 
                 <androidx.cardview.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="70dp"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
+
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp">
 
@@ -160,12 +172,17 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="70dp"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
+                    android:elevation="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp">
 
                     <pl.droidsonroids.gif.GifImageView
+
                         android:id="@+id/broken"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -184,6 +201,9 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="70dp"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
                     android:layout_marginLeft="20dp"
@@ -208,6 +228,9 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="70dp"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
                     android:layout_marginLeft="20dp"
@@ -232,6 +255,9 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="70dp"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
                     android:layout_marginLeft="20dp"
@@ -256,6 +282,9 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="70dp"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
                     android:layout_marginLeft="20dp"

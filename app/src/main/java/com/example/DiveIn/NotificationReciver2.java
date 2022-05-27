@@ -1,9 +1,9 @@
-package com.example.myapplication;
+package com.example.DiveIn;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
+import android.util.Log;
 
 public class NotificationReciver2 extends BroadcastReceiver {
     public static final String ACTION_PREV = "actionprevious";
@@ -24,6 +24,7 @@ public class NotificationReciver2 extends BroadcastReceiver {
                     context.startService(intent1);
                     break;
                 case ACTION_NEXT:
+                    Log.d("Aman","clicked");
                     intent1.putExtra("myactionname",intent.getAction());
                     context.startService(intent1);
                     break;

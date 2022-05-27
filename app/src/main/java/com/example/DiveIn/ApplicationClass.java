@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.DiveIn;
 
 import android.app.Application;
 import android.app.NotificationChannel;

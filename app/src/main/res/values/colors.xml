@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#ED9AD4</color>
+    <color name="purple_200">#FFFFFFFF</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FFFFFFFF</color>
@@ -11,4 +11,9 @@
     <color name="drawer">#88B2DC</color>
     <color name="draw">#ED9AD4</color>
     <color name="pause_buttonbg">#FF000000</color>
+<!--    <color name="splash_bg">#000000</color>-->
+    <color name="splash_bg">#FFFFFFFF</color>
+    <color name="splash_text">#3b1817</color>
+    <color name="shuggle">#e4e43e</color>
+<!--    <color name="splash_text">#f14742</color>-->
 </resources>
