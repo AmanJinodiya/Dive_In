@@ -56,13 +56,17 @@ public class MusicService extends Service {
                 case ACTION_PLAY:
                     if(actionPlaying != null)
                     {
+                        Log.d("Aman","in play");
                         actionPlaying.playpause();
                     }
+                    else Log.d("Aman","in play else");
+                default:
+                    Log.d("Aman","in def");
 
                     break;
             }
         }
-        else Log.d("Aman","null");
+        else Log.d("Aman","last null");
         return START_STICKY;
     }
 

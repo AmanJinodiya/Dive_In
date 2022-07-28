@@ -61,6 +61,10 @@ class mainActivityAdapter(var list : ArrayList<File>,var del_check:Boolean,var p
             Toast.makeText(context, "deleted", Toast.LENGTH_SHORT).show()
             notifyDataSetChanged()
         }
+
+
+
+
         mmr.setDataSource(updated_list.get(position).path)
         val data = mmr.embeddedPicture
         mmr.release()
@@ -72,12 +76,12 @@ class mainActivityAdapter(var list : ArrayList<File>,var del_check:Boolean,var p
         } else holder.image.setImageBitmap(bitmap)
 
         holder.itemView.setOnClickListener {
-            val pause_me = 0
+
             val p = list.indexOf(updated_list[position])
 
             val intent = Intent(context, recycle::class.java).putExtra("songname", name_of_song)
-                .putExtra("songs", list).putExtra("pos", p).putExtra("pause_me", pause_me)
-                .putExtra("pat", pp).putExtra("all_is_not", "all")
+                .putExtra("songs", list).putExtra("pos", p)
+                .putExtra("pat", pp)
             context.startActivity(intent)
         }
 

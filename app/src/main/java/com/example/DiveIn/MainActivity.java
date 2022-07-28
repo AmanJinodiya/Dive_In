@@ -40,6 +40,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     boolean del_check = false;
     MediaPlayer mediaPlayer;
+    int mysongs_size = 0;
     String pp;
     LottieAnimationView card1;
 //    ImageButton play;
@@ -96,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -129,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<File> findsong()
     {
         ArrayList<File> arrayList = new ArrayList<>();
+        mysongs_size = arrayList.size();
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         pp = intent.getStringExtra("p");
@@ -162,6 +167,17 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(m);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
+        card1.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                final int min = 0;
+                final int max = mysongs.size();
+                final int random = new Random().nextInt((max - min) + 1) + min;
+                startActivity(new Intent(MainActivity.this,recycle.class).putExtra("songname","Dive In").putExtra("songs", mysongs).putExtra("pos", random).putExtra("pat", pp));
+                return true;
+            }
+        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

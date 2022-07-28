@@ -169,7 +169,7 @@ public class firstview extends AppCompatActivity implements NavigationView.OnNav
                 switch (item.getItemId())
                 {
                     case R.id.nav_download:
-                        Intent intent = new Intent(getApplicationContext(),moveplaylist.class).putExtra("link","https://mp3quack.app/");
+                        Intent intent = new Intent(getApplicationContext(),moveplaylist.class).putExtra("link","https://www.pagalworld.pw/");
                         startActivity(intent);
                         break;
                     case R.id.nav_home:

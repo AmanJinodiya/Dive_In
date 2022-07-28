@@ -32,7 +32,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class moveplaylist extends AppCompatActivity {
-    CheckBox punjab, Travel, Broken, English, Old, Pop, Workout;
+    CheckBox punjab, Travel, Broken, English, Old, Pop, Workout,coding;
     ImageView submit;
     EditText web_name;
     boolean p = false;
@@ -45,7 +45,7 @@ public class moveplaylist extends AppCompatActivity {
         setContentView(R.layout.activity_moveplaylist);
         punjab = findViewById(R.id.punjab);
         Travel = findViewById(R.id.travel);
-
+        coding = findViewById(R.id.coding);
         Broken = findViewById(R.id.Broken);
         English = findViewById(R.id.english);
         Old = findViewById(R.id.old);
@@ -59,6 +59,28 @@ public class moveplaylist extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         submit = findViewById(R.id.submit);
+
+//        long clistner to reset checkboxes
+        submit.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+
+                reset_checkbox(punjab);
+                reset_checkbox(coding);
+                reset_checkbox(Travel);
+                reset_checkbox(Broken);
+                reset_checkbox(English);
+                reset_checkbox(Old);
+                reset_checkbox(Pop);
+                reset_checkbox(Workout);
+
+
+
+                return true;
+            }
+        });
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +89,7 @@ public class moveplaylist extends AppCompatActivity {
                 boolean old = Old.isChecked();
                 boolean broken = Broken.isChecked();
                 boolean english = English.isChecked();
-
+                boolean code = coding.isChecked();
                 boolean pop = Pop.isChecked();
                 boolean wokout = Workout.isChecked();
                 if (p) {
@@ -79,6 +101,7 @@ public class moveplaylist extends AppCompatActivity {
                 if (old) arrayList.add("Old");
                 if (pop) arrayList.add("Pop");
                 if (wokout) arrayList.add("Workout");
+                if(code) arrayList.add("Coding");
                 Intent intent1 = getIntent();
                 Bundle bundle = intent1.getExtras();
                 String link = bundle.getString("link");
@@ -218,6 +241,13 @@ public class moveplaylist extends AppCompatActivity {
             if (destination != null) {
                 destination.close();
             }
+        }
+    }
+
+    public void reset_checkbox( CheckBox checkBox1)
+    {
+        if (checkBox1.isChecked()) {
+            checkBox1.setChecked(false);
         }
     }
 }

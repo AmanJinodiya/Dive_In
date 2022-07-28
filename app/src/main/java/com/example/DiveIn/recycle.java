@@ -49,6 +49,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -61,7 +62,9 @@ import com.google.android.material.button.MaterialButton;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 
 public class recycle extends AppCompatActivity implements ActionPlaying, ServiceConnection {
@@ -74,6 +77,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
     int default_colour = 0;
     songs_adapter s;
 
+    Queue<Integer> queue = new LinkedList<Integer>();
     RecyclerView rv;
     RelativeLayout r;
 
@@ -175,7 +179,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
         repeat_button = findViewById(R.id.repeat_button);
         rv = findViewById(R.id.recycle);
 
-//       listView = findViewById(R.id.listview1);
+
         iv = findViewById(R.id.iv);
         seekBar = findViewById(R.id.seekBar);
 
@@ -211,8 +215,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
 
         ;
 
-        Intent intent1 = new Intent(this,MusicService.class);
-        bindService(intent1,this,BIND_AUTO_CREATE);
+
 
         if(mediaPlayer != null)
         {
@@ -336,15 +339,13 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
             }
         });
 
-        Intent intent111= new Intent(this,MusicService.class);
-        Log.d("Aman","on resume");
-        bindService(intent111,this,BIND_AUTO_CREATE);
+
 
 
 
 
         imageView = findViewById(R.id.song_pic);
-//        imageView.setImageResource();
+
         Bitmap b = coverpicture(mysongs.get(position).getPath());
         if(b == null) b = ((BitmapDrawable) getResources().getDrawable(R.drawable.temp2)).getBitmap();
         imageView.setImageBitmap(b);
@@ -362,15 +363,6 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
                 int mutedLight = palette.getLightMutedColor(defaultValue);
                 int mutedDark = palette.getDarkMutedColor(defaultValue);
 
-//                vibrantView.setBackgroundColor(vibrant);
-//                vibrantLightView.setBackgroundColor(vibrantLight);
-//                vibrantDarkView.setBackgroundColor(vibrantDark);
-//                mutedView.setBackgroundColor(muted);
-//                mutedLightView.setBackgroundColor(mutedLight);
-//                mutedDarkView.setBackgroundColor(mutedDark);
-
-
-
                 if(muted == 0)
                 {
                     if(vibrantDark == Color.WHITE)
@@ -384,11 +376,8 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
                     default_colour = vibrantLight;
 
                     imageView.setBackgroundColor(vibrantDark);
-//                    tb.setBackgroundColor(vibrantLight);
 
-//
                     View v = LayoutInflater.from(recycle.this).inflate(R.layout.list_item, null);
-//                    View view = getLayoutInflater().inflate(R.layout.list_item,null);
                     TextView t = v.findViewById(R.id.txtsong);
                     t.setText("AMna");
 
@@ -445,9 +434,9 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
     @Override
     protected void onResume() {
         super.onResume();
-//        Intent intent = new Intent(this,MusicService.class);
-//        Log.d("Aman","on resume");
-//        bindService(intent,this,BIND_AUTO_CREATE);
+        Intent intent = new Intent(this,MusicService.class);
+        Log.d("Aman","on resume");
+        bindService(intent,this,BIND_AUTO_CREATE);
     }
 
 
@@ -562,14 +551,23 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
 
         mediaPlayer.stop();
         mediaPlayer.release();
-        if(shuffle)
+
+        if(queue.isEmpty())
         {
-            position = getrandom(mysongs.size()-1);
+            if(shuffle)
+            {
+                position = getrandom(mysongs.size()-1);
+            }
+            else
+            {
+                position = ((position + 1)%mysongs.size());
+            }
         }
         else
         {
-            position = ((position + 1)%mysongs.size());
+            position = queue.remove();
         }
+
         Uri uri = Uri.parse(mysongs.get(position).toString());
         mediaPlayer =MediaPlayer.create(getApplicationContext(),uri);
         song_n = mysongs.get(position).toString();
@@ -584,6 +582,7 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
         remove_foldername.add("Travel");
         remove_foldername.add("English");
         remove_foldername.add("all");
+        remove_foldername.add("coding");
         for(String s : remove_foldername)
         {
             extra+=(s+"/");
@@ -591,9 +590,6 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
             extra = "/storage/emulated/0/myapp/";
         }
 
-//        songs_adapter s = new songs_adapter(mysongs);
-//        rv.setAdapter(s);
-//        rv.setLayoutManager(new LinearLayoutManager(this));
         s.notifyDataSetChanged();
 
         song_n  = song_n.replace(".mp3","");
@@ -627,13 +623,20 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
 
         mediaPlayer.stop();
         mediaPlayer.release();
-        if(shuffle)
+        if(queue.isEmpty())
         {
-            shuffle_active.setVisibility(View.VISIBLE);
+            if(shuffle)
+            {
+                position = getrandom(mysongs.size()-1);
+            }
+            else
+            {
+                position = ((position + 1)%mysongs.size());
+            }
         }
         else
         {
-            shuffle_active.setVisibility(View.INVISIBLE);
+            position = queue.remove();
         }
         position = ((position - 1)<0)?(mysongs.size()-1):position-1;
         Uri uri = Uri.parse(mysongs.get(position).toString());
@@ -657,9 +660,6 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
             extra = "/storage/emulated/0/myapp/";
         }
 
-//        songs_adapter s = new songs_adapter(mysongs);
-//        rv.setAdapter(s);
-//        rv.setLayoutManager(new LinearLayoutManager(this));
         s.notifyDataSetChanged();
         song_n  = song_n.replace(".mp3","");
         textView.setText(song_n);
@@ -1008,6 +1008,24 @@ public class recycle extends AppCompatActivity implements ActionPlaying, Service
                         });
 
 
+                    }
+                });
+
+                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+
+                        queue.add(getAdapterPosition());
+//                        new_song_name.setVisibility(View.GO/NE);
+
+                        TranslateAnimation animation = new TranslateAnimation(0.0f, 1800.0f,
+                                0.0f, 0.0f);
+
+                        animation.setDuration(10000);  // animation duration
+//                        imageView.startAnimation(animation);
+                        new_song_image.startAnimation(animation);
+
+                        return true;
                     }
                 });
             }
